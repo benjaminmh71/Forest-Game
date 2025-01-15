@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkmxr2eotjtiy"]
+
+[ext_resource type="Script" path="res://Scripts/Thorn Wall.gd" id="1_2pwma"]
+[ext_resource type="Texture2D" uid="uid://b1p4ubducp2lv" path="res://Assets/Vine Wall.png" id="2_v4kwe"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_2pwma")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_v4kwe")
