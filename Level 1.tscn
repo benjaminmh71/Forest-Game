@@ -6,3 +6,8 @@
 
 [node name="Grid" type="Node" parent="."]
 script = ExtResource("1_2bwwn")
+
+[node name="MoveTimer" type="Timer" parent="Grid"]
+autostart = true
+
+[connection signal="timeout" from="Grid/MoveTimer" to="Grid" method="_on_move_timer_timeout"]
