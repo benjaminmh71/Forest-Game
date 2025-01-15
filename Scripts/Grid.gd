@@ -1,3 +1,4 @@
+class_name Grid
 extends Node
 
 @export var width := 16
@@ -13,9 +14,6 @@ func _ready():
 		for j in range(height):
 			grid[i].append(null)
 
-func _process(delta):
-	pass
-
 func _input(event):
 	if event is InputEventMouseButton:
 		place(load("res://Entities/Soldier.tscn").instantiate(), 
@@ -24,14 +22,22 @@ func _input(event):
 func place(entity: Entity, x: int, y: int):
 	if (x >= width or y >= height): return
 	if (grid[x][y] != null): return
-	entity.position = Vector2(xOffset+x*tsize, yOffset+y*tsize)
 	entity.gridX = x
 	entity.gridY = y
+	entity.position = Vector2(xOffset+x*tsize, yOffset+y*tsize)
 	grid[x][y] = entity
 	add_child(entity)
 
+func move(entity: Entity, dx: int, dy: int):
+	if (entity.gridX+dx >= width or entity.gridY+dy >= height): return
+	if (grid[entity.gridX+dx][entity.gridY+dy] != null): return
+	grid[entity.gridX][entity.gridY] = null
+	entity.gridX += dx
+	entity.gridY += dy
+	entity.position = Vector2(xOffset+entity.gridX*tsize, yOffset+entity.gridY*tsize)
+	grid[entity.gridX][entity.gridY] = entity
+
 func _on_move_timer_timeout():
-	for i in range(width):
-		for j in range(height):
-			if grid[i][j] != null:
-				grid[i][j].takeAction(grid)
+	for entity in get_children():
+		if !(entity is Entity): continue
+		entity.takeAction(self)
