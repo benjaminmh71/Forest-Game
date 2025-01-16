@@ -1,11 +1,11 @@
 class_name Grid
 extends Node
 
-@export var width := 16
-@export var height := 8
+@export var width := 17
+@export var height := 7
 var grid := []
 var tsize = 16
-var xOffset = 8
+var xOffset = 24
 var yOffset = 8
 
 func _ready():
@@ -20,7 +20,8 @@ func _input(event):
 			(event.position.x-xOffset+tsize/2)/tsize, (event.position.y+tsize/2-yOffset)/tsize)
 
 func place(entity: Entity, x: int, y: int):
-	if (x >= width or y >= height): return
+	if (x >= width or y >= height
+		or x < 0 or y < 0): return
 	if (grid[x][y] != null): return
 	entity.gridX = x
 	entity.gridY = y
@@ -29,7 +30,8 @@ func place(entity: Entity, x: int, y: int):
 	add_child(entity)
 
 func move(entity: Entity, dx: int, dy: int):
-	if (entity.gridX+dx >= width or entity.gridY+dy >= height): return
+	if (entity.gridX+dx >= width or entity.gridY+dy >= height
+		or entity.gridX+dx < 0 or entity.gridY+dy < 0): return
 	if (grid[entity.gridX+dx][entity.gridY+dy] != null): return
 	grid[entity.gridX][entity.gridY] = null
 	entity.gridX += dx
